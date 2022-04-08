@@ -10,6 +10,7 @@ server.on("connection", (socket) => {
   // on receive
   socket.on("message", (msg) => {
     console.log(msg.toString());
+    socket.send(`hi! you just sent ${msg.toString()}`)
   });
 
   // remove socket on disconnect
