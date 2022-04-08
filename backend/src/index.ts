@@ -1,21 +1,17 @@
 import { WebSocket, WebSocketServer } from "ws";
+import crypto from "crypto";
 import globalState from "./state";
 
 const server = new WebSocketServer({ port: 8080 });
 
-let sockets: WebSocket[] = [];
 server.on("connection", (socket) => {
-  sockets.push(socket);
+  const newUser = {
+    socket: socket,
+    id: crypto.randomUUID(),
+    name: "Unnamed",
+  };
 
-  // on receive
-  socket.on("message", (msg) => {
-    console.log(msg.toString());
-  });
-
-  // remove socket on disconnect
-  socket.on("close", () => {
-    sockets = sockets.filter((s) => s !== socket);
-  });
+  globalState.addUser(newUser);
 });
 
 console.log("WebSocket server started");
