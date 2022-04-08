@@ -1,6 +1,7 @@
 import { WebSocket, WebSocketServer } from "ws";
+import globalState from "./state";
 
-const server = new WebSocketServer();
+const server = new WebSocketServer({ port: 8080 });
 
 let sockets: WebSocket[] = [];
 server.on("connection", (socket) => {
@@ -14,3 +15,6 @@ server.on("connection", (socket) => {
     sockets = sockets.filter((s) => s !== socket);
   });
 });
+
+console.log("WebSocket server started");
+console.log("Probably at ws://localhost:8080 for dev");
