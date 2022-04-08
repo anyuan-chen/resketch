@@ -1,3 +1,2 @@
-const sum = (a: number, b: number) => a + b;
-
-export default sum;
+// happy coding 👻
+console.log("hello world");
