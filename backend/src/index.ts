@@ -8,7 +8,9 @@ server.on("connection", (socket) => {
   sockets.push(socket);
 
   // on receive
-  socket.on("message", (msg) => {});
+  socket.on("message", (msg) => {
+    console.log(msg.toString());
+  });
 
   // remove socket on disconnect
   socket.on("close", () => {
