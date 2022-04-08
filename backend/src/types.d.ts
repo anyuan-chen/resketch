@@ -4,6 +4,8 @@ interface User {
   id: string;
   name: string;
   socket: WebSocket;
+  send: (event: Event) => void;
+  isHost?: boolean;
 }
 
 interface Event {

@@ -1,9 +1,10 @@
 import { Event, User, UserEvent } from "./types";
 
-class State {
+export class Guild {
   users: User[] = [];
-  constructor() {
-    console.log(this.users);
+  rounds = 0;
+  constructor(rounds: number) {
+    this.rounds = rounds;
   }
 
   addUser(user: User) {
@@ -28,7 +29,7 @@ class State {
 
   fireEventAll(event: Event) {
     for (const u of this.users) {
-      u.socket.send(JSON.stringify(event));
+      u.send(event);
     }
   }
 
@@ -36,12 +37,8 @@ class State {
     return {
       event: "user_update",
       users: this.users.map((e) => {
-        return { id: e.id, name: e.name };
+        return { id: e.id, name: e.name, isHost: e.isHost };
       }),
     };
   }
 }
-
-const globalState = new State();
-
-export default globalState;
