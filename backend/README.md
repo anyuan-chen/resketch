@@ -1,3 +1,3 @@
-# sketchify-server
+# resketch-server
 
-WebSocket server for Sketchify
+WebSocket server for Resketch
