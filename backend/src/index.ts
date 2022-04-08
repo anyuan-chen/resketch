@@ -1,7 +1,6 @@
 import { WebSocket, WebSocketServer } from "ws";
 import crypto from "crypto";
 import globalState from "./state";
-import testPrintImage from "./gcptests";
 
 const server = new WebSocketServer({ port: 8080 });
 
