@@ -5,27 +5,10 @@ import SmallTitle from './smallTitle';
 import Body from './body';
 import Button from './button';
 
-export default function Lobby() {
-    const [havePlayers, sethHavePlayers] = useState(true); // by default it should be false, we are just setting it true here for testing purposes
-    const players = [ // dummy data
-        {
-            name: "James",
-        },
-        {
-            name: "daniel",
-        },
-        {
-            name: "thomas",
-        },
-        {
-            name: "andrew",
-        },
-    ];
-
+export default function Lobby({players}) {    
     const playerList = players.map((player) => 
-        <Body children={player.name}/>
+        <Body>{player.name}</Body>
     );
-    
     return (
         <div>
             <div id="over-container">
@@ -35,7 +18,7 @@ export default function Lobby() {
                     </div>
                     <div className="bg-[#82A08A] w-full rounded-3xl h-[440px] px-14 py-8">
                         <div className="flex flex-wrap h-full w-full space-x-28">
-                            {havePlayers && playerList}
+                            {playerList}
                         </div>
                     </div>
                     <button onClick={() => {}}>

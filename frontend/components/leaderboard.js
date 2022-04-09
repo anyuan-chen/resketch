@@ -29,14 +29,10 @@ const Container = styled.div`
     gap: 2em; 
 `;
 
-export default function Leaderboard({position}) {
-    const users = [
-        {name: "user1", score: "2", total: "5"}, 
-        {name: "user2", score: "3", total: "5"}, 
-        {name: "user3", score: "4", total: "5"}, 
-    ]
+export default function Leaderboard({position, users}) {
+
+    //name, score, total needed for users
     let place = ""; 
-    
     if(position == 1) { 
         place = "1st";
     } else if(position == 2) { 
