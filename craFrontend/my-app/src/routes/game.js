@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import Lobby from "../components/lobby";
+import AnswerResults from "../components/answerResults";
+import Canvas from "../components/canvas";
+import Leaderboard from "../components/leaderboard";
 
 const API_ENDPOINT = "ws://localhost:8080";
 
@@ -22,6 +25,7 @@ export default class Game extends Component {
     images: {}, // uuid: base64 encoded string
     confidences: {}, // uuid: decimal percentage (0 <= x <= 1)
     wordHistory: [],
+    stage: "lobby",
   };
 
   send(object) {
@@ -57,6 +61,7 @@ export default class Game extends Component {
             }
             break;
           case "new_round":
+            newState.stage = "canvas";
             newState.currentRound++;
             newState.wordHistory.push(data.word);
             newState.totalRounds = data.total_rounds;
@@ -90,6 +95,16 @@ export default class Game extends Component {
    * server.currentWord
    */
   render() {
-    return <Lobby players={this.state.users}></Lobby>;
+    if (this.state.stage === "lobby") {
+      return <Lobby client={client} players={this.state.users}></Lobby>;
+    } else if (this.state.stage === "canvas") {
+      return <Canvas client={client}></Canvas>;
+    } else if (this.state.stage === "answer") {
+      return <AnswerResults client={client}></AnswerResults>;
+    } else if (this.state.stage === "leaderboard") {
+      return <Leaderboard client={client}></Leaderboard>;
+    } else {
+      return <div>something is wrong!</div>;
+    }
   }
 }

@@ -5,7 +5,7 @@ import SmallTitle from "./smallTitle";
 import Body from "./body";
 import Button from "./button";
 
-export default function Lobby({ players }) {
+export default function Lobby({ players, client }) {
   const [playerList, setPlayerList] = useState([]);
 
   useEffect(() => {
@@ -26,7 +26,12 @@ export default function Lobby({ players }) {
               {playerList}
             </div>
           </div>
-          <button onClick={() => {}}>
+          <button
+            onClick={() => {
+              console.log("pressed ");
+              client.send(JSON.stringify({ action: "begin" }));
+            }}
+          >
             <Button children={"start the game!"} width="245" />
           </button>
         </div>

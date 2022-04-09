@@ -29,8 +29,7 @@ const Container = styled.div`
     gap: 2em; 
 `;
 
-export default function Leaderboard({position, users}) {
-
+export default function Leaderboard({position, users, canvas}) {
     //name, score, total needed for users
     let place = ""; 
     if(position == 1) { 

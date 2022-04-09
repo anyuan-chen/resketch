@@ -65,7 +65,7 @@ function ResponseType(props) {
     else return <SmallTitle children = "You got it wrong!"/>
 }
 
-export default function AnswerResults({correct, descriptionText}) {
+export default function AnswerResults({correct, descriptionText, client}) {
     return <Background>
         <ResponseContainer>
             <ResponseType isCorrect = {correct}/> 
