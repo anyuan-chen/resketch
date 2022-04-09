@@ -3,7 +3,7 @@ import Button from "../components/button";
 import Modal from "../components/modal";
 import Title from "../components/title";
 import useModal from "../hooks/useModal";
-import Lobby from "../components/lobby";
+
 export default function Home() {
   const { isShowing, toggle, text, changeText, name, changeName } = useModal();
   return (
