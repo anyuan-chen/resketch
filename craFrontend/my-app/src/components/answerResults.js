@@ -78,7 +78,9 @@ export default function AnswerResults({ descriptionText, client }) {
         <ResponseType />
         <ImageContainer>
           <Description>{descriptionText}</Description>
-          <ImageHolder></ImageHolder>
+          <ImageHolder
+            src={`/assets/images/${Math.floor(Math.random() * 3) + 1}.jpg`}
+          ></ImageHolder>
         </ImageContainer>
         <ButtonContainer>
           <button
