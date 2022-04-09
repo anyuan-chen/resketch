@@ -36,11 +36,11 @@ export default class Game extends Component {
     };
 
     client.onmessage = (e) => {
-      const data = e.data;
+      const data = JSON.parse(e.data);
       console.log(data);
       this.setState((state) => {
         const newState = { ...this.state };
-        switch (data) {
+        switch (data.event) {
           case "user_update":
             newState.users = data.users;
             newState.guild_id = data.guild_id;
