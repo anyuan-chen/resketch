@@ -2,14 +2,14 @@ import { ImageResult } from "./types";
 import { ImageAnnotatorClient } from "@google-cloud/vision";
 
 async function getLabels(image: Buffer) {
-  const client: ImageAnnotatorClient = new ImageAnnotatorClient();
+  const client = new ImageAnnotatorClient();
   const [result] = await client.labelDetection(image);
   const labels = result.labelAnnotations;
   const filtered: ImageResult[] =
     labels?.map((label) => {
       return {
         confidence: label.confidence ?? 0,
-        label: label.description ?? "",
+        label: label.description ?? "No description",
       };
     }) ?? [];
 }
