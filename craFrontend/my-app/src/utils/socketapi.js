@@ -5,6 +5,7 @@ export class SocketAPI {
   guild_id = 0;
   currentRound = 1;
   totalRounds = 3;
+  victories = {};
   constructor() {
     const url = new URL(window.location.href);
     this.socket = new WebSocket(
@@ -26,6 +27,7 @@ export class SocketAPI {
         case "user_update":
           this.users = data.users;
           this.guild_id = data.guild_id;
+          this.leaderboardFillMissingUsers();
           return;
         case "new_round":
           this.currentRound++;
@@ -35,6 +37,7 @@ export class SocketAPI {
           //shit
           return;
         case "victory":
+          this.leaderboard[data.victor_user_id]++;
           return;
         default:
           console.log("invalid server event?", data);
@@ -52,5 +55,13 @@ export class SocketAPI {
   send(object) {
     console.log(object);
     this.socket.send(JSON.stringify(object));
+  }
+
+  leaderboardFillMissingUsers() {
+    for (const u of this.users) {
+      if (!this.leaderboard[u.id] >= 0) {
+        this.leaderboard[u.id] = 0;
+      }
+    }
   }
 }
