@@ -5,9 +5,11 @@ import {
   NewRoundEvent,
   User,
   UserEvent,
+  VictoryEvent,
 } from "./types";
 import wordlist from "./data/wordlist.json";
-import { WIN_CONFIDENCE_THRESHOLD } from "./data/defaults";
+import { WIN_CONFIDENCE_THRESHOLD, SYNC_INTERVAL_MS } from "./data/defaults";
+import getLabels from "./recogniser";
 
 export class Guild {
   users: User[] = [];
@@ -16,10 +18,20 @@ export class Guild {
   id: string;
   game: GameManager;
 
+  interval: NodeJS.Timer;
+
   constructor(id: string, rounds: number) {
     this.rounds = rounds;
     this.id = id;
     this.game = new GameManager(rounds);
+
+    this.interval = setInterval(() => {
+      const winners = this.game.reviewImages(this.users);
+      if (winners.length > 0) {
+        this.fireEventAll(this.generateVictoryEvent(winners[0]));
+        this.game.gamePlaying = false;
+      }
+    }, SYNC_INTERVAL_MS);
   }
 
   addUser(user: User) {
@@ -46,6 +58,10 @@ export class Guild {
           case "draw":
             if (!data.image) {
               return user.error("MissingImage");
+            }
+            this.game.setImage(user, data.image);
+            if (this.game.sinceLastSync >= 5) {
+              this.fireEventAll(this.generateCanvasEvent());
             }
             return;
           case "finished":
@@ -136,6 +152,14 @@ export class Guild {
     };
     return event;
   }
+
+  generateVictoryEvent(user: User): VictoryEvent {
+    const event: VictoryEvent = {
+      event: "victory",
+      victor_user_id: user.id,
+    };
+    return event;
+  }
 }
 
 class GameManager {
@@ -145,8 +169,10 @@ class GameManager {
   currentRound = 1;
   totalRounds: number;
   wordHistory: string[] = [];
-  roundOver = false;
+  gamePlaying = false;
   userFinished: { [key: string]: boolean } = {}; // uuid: if ready
+
+  sinceLastSync = 0;
 
   constructor(rounds: number) {
     this.totalRounds = rounds;
@@ -158,7 +184,7 @@ class GameManager {
 
   setImage(user: User, image: string) {
     this.images[user.id] = image;
-    // TODO: call api, etc, etc, fancy stuff here
+    this.sinceLastSync++;
   }
 
   startNextRound(): boolean {
@@ -184,10 +210,30 @@ class GameManager {
       newWord = wordlist[(wordlist.length * Math.random()) | 0];
     } while (this.wordHistory.includes(newWord));
     this.activeWord = newWord;
+    this.gamePlaying = true;
   }
 
-  reviewImages(userIds: string[] | string): string[] {
+  reviewImages(users: User[]): User[] {
     // accept ids to check
     // return all people who are above confidence threshold
+    // also adjust the confidence thingies
+    if (!this.gamePlaying) return [];
+    const winners = users.filter(
+      (u) => this.confidences[u.id] >= WIN_CONFIDENCE_THRESHOLD
+    );
+
+    for (const u of users) {
+      if (this.images[u.id]) {
+        getLabels(this.images[u.id]).then((e) => {
+          const current = e.find(
+            (i) => i.label.toLowerCase() === this.activeWord
+          );
+          if (current) {
+            this.confidences[u.id] = current.confidence;
+          }
+        });
+      }
+    }
+    return winners;
   }
 }
