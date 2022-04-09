@@ -3,7 +3,9 @@ import { ImageAnnotatorClient } from "@google-cloud/vision";
 
 async function getLabels(imagebase64: string) {
   const client = new ImageAnnotatorClient();
-  const [result] = await client.labelDetection(imagebase64);
+  const [result] = await client.labelDetection(
+    Buffer.from(imagebase64, "base64")
+  );
   const labels = result.labelAnnotations;
   const filtered: ImageResult[] =
     labels?.map((label) => {
