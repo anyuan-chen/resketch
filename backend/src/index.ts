@@ -24,7 +24,7 @@ server.on("connection", (socket, req) => {
   };
 
   const url = new URL(`http://${req.headers.host}${req.url}`);
-  console.log(url);
+  console.log("new user joined");
   const guildHash = url.searchParams.get("guild");
   const rounds = parseInt(url.searchParams.get("rounds") || "0") || NUM_ROUNDS;
   if (url.pathname.endsWith("/join")) {
