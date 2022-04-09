@@ -7,9 +7,9 @@ export default function Game() {
   const [users, setUsers] = React.useState(server.users);
 
   React.useEffect(() => {
-    setUsers(server.users)
-  }, [server.users])
-  
+    setUsers(server.users);
+  }, [server.users]);
+
   // watch the following for server changes:
   /*
    * server.users
@@ -21,5 +21,5 @@ export default function Game() {
    * server.confidences
    * server.currentWord
    */
-  return <div></div>;
+  return <div>Game</div>;
 }
