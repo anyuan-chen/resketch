@@ -34,10 +34,10 @@ async function getLabels(imagebase64: string) {
       body: JSON.stringify(obj),
     }
   );
-  const labels = ((await result.json()) as { [key: string]: any })
-    .labelAnnotations;
+  const json = (await result.json()) as { [key: string]: any };
+  const labels = json.labelAnnotations;
   //console.log(labels);
-  console.log(await result.json());
+  console.log(json);
 
   const filtered: ImageResult[] =
     labels?.map((label: { [key: string]: number | string }) => {
