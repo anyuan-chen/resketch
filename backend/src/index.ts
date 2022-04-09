@@ -52,6 +52,5 @@ server.on("connection", (socket, req) => {
     guilds[newGuildId].addUser(newUser);
   }
 });
-
 console.log("WebSocket server started");
 console.log("Probably at ws://localhost:8080/ for dev");

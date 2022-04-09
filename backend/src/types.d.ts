@@ -12,6 +12,11 @@ interface Event {
   event: string;
 }
 
+interface ImageResult {
+  confidence: number;
+  label: string;
+}
+
 interface UserEvent extends Event {
   event: "user_update";
   guild_id: string;
@@ -22,3 +27,15 @@ interface ImageResults {
   label: string;
   confidence: number;
 }
+interface Query {
+  locations: string[];
+  properties: string[];
+} // locations: [],
+// properties: [],
+// mid: '/m/02wbm',
+// locale: '',
+// description: 'Food',
+// score: 0.9611189961433411,
+// confidence: 0,
+// topicality: 0.9611189961433411,
+// boundingPoly: null
