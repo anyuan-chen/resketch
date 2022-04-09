@@ -28,7 +28,11 @@ export class Guild {
     this.interval = setInterval(() => {
       const winners = this.game.reviewImages(this.users);
       if (winners.length > 0) {
-        this.fireEventAll(this.generateVictoryEvent(winners[0]));
+        this.fireEventAll(
+          this.generateVictoryEvent(
+            winners[(winners.length * Math.random()) | 0]
+          )
+        );
         this.game.gamePlaying = false;
       }
     }, SYNC_INTERVAL_MS);
@@ -217,11 +221,11 @@ class GameManager {
   }
 
   reviewImages(users: User[]): User[] {
-    this.times++;
     // accept ids to check
     // return all people who are above confidence threshold
     // also adjust the confidence thingies
     if (!this.gamePlaying) return [];
+    this.times++;
     const winners = users.filter(
       (u) =>
         this.confidences[u.id] >= WIN_CONFIDENCE_THRESHOLD || this.times > 12 // if 5 secs pass game over
