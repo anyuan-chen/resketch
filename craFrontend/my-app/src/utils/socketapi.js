@@ -5,7 +5,9 @@ export class SocketAPI {
   guild_id = 0;
   currentRound = 1;
   totalRounds = 3;
-  victories = {};
+  victories = {}; // uuid: int
+  images = {}; // uuid: base64 encoded string
+  confidences = {}; // uuid: decimal percentage (0 <= x <= 1)
   constructor() {
     const url = new URL(window.location.href);
     this.socket = new WebSocket(
@@ -27,14 +29,17 @@ export class SocketAPI {
         case "user_update":
           this.users = data.users;
           this.guild_id = data.guild_id;
-          this.leaderboardFillMissingUsers();
+          this.stateFillMissingUsers();
           return;
         case "new_round":
           this.currentRound++;
           this.totalRounds = event.total_rounds;
           return;
         case "draw":
-          //shit
+          event.images.forEach(({ user_id, content, confidence }) => {
+            this.images[user_id] = content;
+            this.confidences[user_id] = confidence;
+          });
           return;
         case "victory":
           this.leaderboard[data.victor_user_id]++;
@@ -57,10 +62,15 @@ export class SocketAPI {
     this.socket.send(JSON.stringify(object));
   }
 
-  leaderboardFillMissingUsers() {
+  stateFillMissingUsers() {
     for (const u of this.users) {
       if (!this.leaderboard[u.id] >= 0) {
+        // if not present in leaderboard
         this.leaderboard[u.id] = 0;
+      }
+      if (!this.confidences[u.id] >= 0) {
+        // if not present in confidences
+        this.confidences[u.id] = 0;
       }
     }
   }
