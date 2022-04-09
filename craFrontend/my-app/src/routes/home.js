@@ -17,16 +17,21 @@ export default function Home() {
         changeName={changeName}
       ></Modal>
       <div id="background">
-        <div className="flex flex-col space-y-8">
-          <Title>resketch.</Title>
-          <Body>
-            unleash your creativity. <br></br> sketch now.
-          </Body>
-          <div className="flex space-x-8">
-            <Button>join a game</Button>
-            <div onClick={toggle}>
-              <Button dark={true}>enter a private room</Button>
+        <div className="flex flex-row items-center space-x-8">
+          <div className="flex flex-col space-y-8">
+            <Title>resketch.</Title>
+            <Body>
+              unleash your creativity. <br></br> sketch now.
+            </Body>
+            <div className="flex space-x-8">
+              <Button>join a game</Button>
+              <div onClick={toggle}>
+                <Button dark={true}>enter a private room</Button>
+              </div>
             </div>
+          </div>
+          <div className="flex justify-center">
+            <img src="../Resketch_logo2.png" className="w-1/2"/>
           </div>
         </div>
         <div></div>

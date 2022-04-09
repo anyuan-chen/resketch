@@ -4,6 +4,7 @@ import Home from "./routes/home";
 import Game from "./routes/game";
 import "./index.css";
 import React from "react";
+import Canvas from "./components/canvas";
 
 const rootElement = createRoot(document.getElementById("root"));
 rootElement.render(
@@ -13,6 +14,7 @@ rootElement.render(
         <Route path="/" element={<Home />} />
         <Route path="/host" element={<Game />}></Route>
         <Route path="/join" element={<Game />}></Route>
+        <Route path="/test" element={<Canvas/>}></Route>
       </Routes>
     </BrowserRouter>
     </React.Fragment>
