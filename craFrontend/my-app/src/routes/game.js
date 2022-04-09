@@ -3,6 +3,7 @@ import Lobby from "../components/lobby";
 import AnswerResults from "../components/answerResults";
 import Canvas from "../components/canvas";
 import Leaderboard from "../components/leaderboard";
+import platitudes from "../data/platitudes.json";
 
 const API_ENDPOINT = "wss://api.eggworld.tk/sketch";
 
@@ -112,7 +113,11 @@ export default class Game extends Component {
         ></Canvas>
       );
     } else if (this.state.stage === "answer") {
-      return <AnswerResults client={client}></AnswerResults>;
+      return (
+        <AnswerResults client={client}>
+          {platitudes[(platitudes.length * Math.random()) | 0]}
+        </AnswerResults>
+      );
     } else if (this.state.stage === "leaderboard") {
       return (
         <Leaderboard

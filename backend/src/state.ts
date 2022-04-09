@@ -176,6 +176,7 @@ class GameManager {
   userFinished: { [key: string]: boolean } = {}; // uuid: if ready
 
   sinceLastSync = 0;
+  times = 0;
 
   constructor(rounds: number) {
     this.totalRounds = rounds;
@@ -217,12 +218,14 @@ class GameManager {
   }
 
   reviewImages(users: User[]): User[] {
+    this.times++;
     // accept ids to check
     // return all people who are above confidence threshold
     // also adjust the confidence thingies
     if (!this.gamePlaying) return [];
     const winners = users.filter(
-      (u) => this.confidences[u.id] >= WIN_CONFIDENCE_THRESHOLD
+      (u) =>
+        this.confidences[u.id] >= WIN_CONFIDENCE_THRESHOLD || this.times > 5 // if 5 secs pass game over
     );
 
     for (const u of users) {
