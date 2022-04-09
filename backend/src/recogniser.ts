@@ -14,7 +14,7 @@ async function getLabels(imagebase64: string) {
           },
         ],
         image: {
-          content: imagebase64,
+          content: imagebase64.split(";base64,")[1],
         },
       },
     ],
