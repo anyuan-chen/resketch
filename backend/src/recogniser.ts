@@ -12,6 +12,7 @@ async function getLabels(image: Buffer) {
         label: label.description ?? "No description",
       };
     }) ?? [];
+    return filtered;
 }
 
 //SAMPLE RESPONSE FOR A LABEL - RETURNS AN ARRAY OF THESE
