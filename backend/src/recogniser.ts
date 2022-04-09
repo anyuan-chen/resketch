@@ -14,7 +14,7 @@ async function getLabels(imagebase64: string) {
           },
         ],
         image: {
-          content: imagebase64.split(";base64,")[1],
+          content: imagebase64.split(";base64,")[1].replaceAll(" ", ""),
         },
       },
     ],
@@ -32,10 +32,6 @@ async function getLabels(imagebase64: string) {
     {
       method: "post",
       body: JSON.stringify(obj),
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
     }
   );
   const labels = ((await result.json()) as { [key: string]: any })
