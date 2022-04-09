@@ -4,7 +4,7 @@ import ReactDOM from "react-dom";
 import Body from "./body";
 import Button from "./button";
 
-const Modal = ({ isShowing, toggle, text, changeText }) =>
+const Modal = ({ isShowing, toggle, text, changeText, name, changeName }) =>
   isShowing
     ? ReactDOM.createPortal(
         <React.Fragment>
@@ -20,7 +20,7 @@ const Modal = ({ isShowing, toggle, text, changeText }) =>
               <div id="container">
                 <div id="header">
                   <Body>
-                    <div style={{ color: "black" }}>Enter a Code</div>
+                    <div style={{ color: "black" }}>room code</div>
                   </Body>
                   <button
                     type="button"
@@ -32,18 +32,28 @@ const Modal = ({ isShowing, toggle, text, changeText }) =>
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
-                <form>
-                  <input
-                    id="form"
-                    onChange={(event) => changeText(event.target.value)}
-                    value={text}
-                  >
-                    {}
-                  </input>
-                </form>
-                <Link href={`/play?${text}`}>
+                <input
+                  id="form"
+                  onChange={(event) => changeText(event.target.value)}
+                  value={text}
+                >
+                  {}
+                </input>
+                <Body>
+                  <div style={{ color: "black" }}>name</div>
+                </Body>
+                <input
+                  id="form"
+                  onChange={(event) => changeName(event.target.value)}
+                  value={name}
+                >
+                  {}
+                </input>
+                <Link href={`/play?room=${text}&name=${name}`}>
                   <a>
-                    <Button dark={true}>enter</Button>
+                    <Button dark={true} width={110}>
+                      enter
+                    </Button>
                   </a>
                 </Link>
               </div>
