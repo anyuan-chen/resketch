@@ -59,10 +59,13 @@ export class Guild {
             if (!data.image) {
               return user.error("MissingImage");
             }
+            console.log("1");
             this.game.setImage(user, data.image);
+            console.log("2");
             if (this.game.sinceLastSync >= 5) {
               this.fireEventAll(this.generateCanvasEvent());
             }
+            console.log("3");
             return;
           case "finished":
             this.game.markFinished(user);
@@ -185,6 +188,7 @@ class GameManager {
 
   setImage(user: User, image: string) {
     this.images[user.id] = image;
+    console.log(4);
     this.sinceLastSync++;
   }
 
