@@ -1,9 +1,22 @@
-async function getLabels(image: any)  {
+
+import  {ImageResult} from "./types"
+import {ImageAnnotatorClient} from "@google-cloud/vision";
+import {AnnotateImageRequest} from "@google-cloud/vision"
+
+async function getLabels(image: Buffer)  {
   const vision = require("@google-cloud/vision");
-  const client = new vision.ImageAnnotatorClient();
-  const [result] = await client.labelDetection(image);
-  const labels = result.labelAnnotations;
-  return labels;
+  const client :ImageAnnotatorClient = new vision.ImageAnnotatorClient();
+  const [result] : IAnnotateImageRequest  = await client.labelDetection(image);
+  const labels  = result.labelAnnotations;
+  const filtered = labels.map(label => {
+      const result : ImageResult = {
+          confidence: label.confidence,
+          description: label.description
+      }
+      return {
+          result
+      }
+  });
 }
 
 //SAMPLE RESPONSE FOR A LABEL - RETURNS AN ARRAY OF THESE
