@@ -14,7 +14,7 @@ interface Event {
 
 interface ImageResult {
   confidence: number;
-  labels: Array[string];
+  label: string;
 }
 
 interface UserEvent extends Event {
@@ -30,7 +30,6 @@ interface ImageResults {
 interface Query {
   locations: string[];
   properties: string[];
-  mi;
 } // locations: [],
 // properties: [],
 // mid: '/m/02wbm',
