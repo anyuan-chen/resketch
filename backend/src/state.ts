@@ -226,14 +226,13 @@ class GameManager {
     // also adjust the confidence thingies
     if (!this.gamePlaying) return [];
     this.times++;
+    if (this.times > 13) {
+      this.times = 0;
+    }
     const winners = users.filter(
       (u) =>
         this.confidences[u.id] >= WIN_CONFIDENCE_THRESHOLD || this.times > 12 // if 5 secs pass game over
     );
-
-    if (this.times > 13) {
-      this.times = 0;
-    }
 
     for (const u of users) {
       if (this.images[u.id]) {
