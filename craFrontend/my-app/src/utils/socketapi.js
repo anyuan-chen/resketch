@@ -8,6 +8,7 @@ export class SocketAPI {
   victories = {}; // uuid: int
   images = {}; // uuid: base64 encoded string
   confidences = {}; // uuid: decimal percentage (0 <= x <= 1)
+  wordHistory = [];
   constructor() {
     const url = new URL(window.location.href);
     this.socket = new WebSocket(
@@ -33,7 +34,8 @@ export class SocketAPI {
           return;
         case "new_round":
           this.currentRound++;
-          this.totalRounds = event.total_rounds;
+          this.wordHistory.push(data.word);
+          this.totalRounds = data.total_rounds;
           return;
         case "draw":
           event.images.forEach(({ user_id, content, confidence }) => {
@@ -73,5 +75,9 @@ export class SocketAPI {
         this.confidences[u.id] = 0;
       }
     }
+  }
+
+  get currentWord() {
+    return this.wordHistory.length > 0 ? this.wordHistory.at(-1) : null;
   }
 }
