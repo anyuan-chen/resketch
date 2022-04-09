@@ -228,7 +228,7 @@ class GameManager {
         this.confidences[u.id] >= WIN_CONFIDENCE_THRESHOLD || this.times > 12 // if 5 secs pass game over
     );
 
-    if (this.times > 12) {
+    if (this.times > 13) {
       this.times = 0;
     }
 
