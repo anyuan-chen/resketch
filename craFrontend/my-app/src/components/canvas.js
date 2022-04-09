@@ -57,11 +57,11 @@ export default function Canvas() {
     
     const draw = (e) => {
         if (!isDrawing) {
-        return;
+            return;
         }
         ctxRef.current.lineTo(
-        e.nativeEvent.offsetX, 
-        e.nativeEvent.offsetY
+            e.nativeEvent.offsetX, 
+            e.nativeEvent.offsetY
         );
         
         ctxRef.current.stroke();
@@ -103,7 +103,7 @@ export default function Canvas() {
 
     const selectPencilDiv = (
         <div 
-            className="h-1/2 flex bg-[#0E312B] justify-center items-center px-4 hover:cursor-pointer rounded-t-3xl select-none">
+            className="h-1/2 flex bg-[#0E312B] justify-center items-center px-4 hover:cursor-pointer rounded-t-[1.45rem] select-none">
             <img src="../assets/Ellipse_inverted.svg" alt="Select Pencil" draggable="false"/>
         </div>
     );
@@ -117,7 +117,7 @@ export default function Canvas() {
 
     const selectEraserDiv = (
         <div
-            className="h-1/2 flex bg-[#0E312B] justify-center items-center px-4 hover:cursor-pointer rounded-b-3xl select-none">
+            className="h-1/2 flex bg-[#0E312B] justify-center items-center px-4 hover:cursor-pointer rounded-b-[1.45rem] select-none">
             <img src="../assets/Eraser_inverted.png" alt="Select Eraser" draggable="false"/>
         </div>
     );
@@ -171,7 +171,7 @@ export default function Canvas() {
                                 />
                             </div>
                         </div>
-                        <div className="flex flex-col border-2 bg-white rounded-3xl">
+                        <div className="flex flex-col bg-white rounded-3xl">
                             {usingPencil? selectPencilDiv : defaultPencilDiv}
                             {usingEraser? selectEraserDiv : defaultEraserDiv}
                         </div>
