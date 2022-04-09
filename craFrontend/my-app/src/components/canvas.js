@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import Button from "./button.js";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCheck, faXmark } from "@fortawesome/free-solid-svg-icons"
 
 export default function Canvas() {
     const canvasRef = useRef(null);
@@ -84,13 +86,21 @@ export default function Canvas() {
 
     const roundList = roundData.map((item) => {
         if(item.state === "correct") {
-            return <div className="flex justify-center items-center w-1/3 bg-[#0E312B] rounded-xl text-white py-3.5"> 
+            return <div className="flex justify-center items-center w-1/3 bg-[#0E312B] rounded-xl text-white py-3.5 space-x-x"> 
                 {item.roundNumber}
+                <FontAwesomeIcon
+                    icon={faCheck}
+                    className="pl-4"
+                />
             </div>
         }
         if(item.state === "incorrect") {
             return <div className="flex justify-center items-center w-1/3 bg-[#9D9D9D] rounded-xl text-white py-3.5">  
                 {item.roundNumber}
+                <FontAwesomeIcon
+                    icon={faXmark}
+                    className="pl-4"
+                />
             </div>
         }
         if(item.state === "not answered") {
