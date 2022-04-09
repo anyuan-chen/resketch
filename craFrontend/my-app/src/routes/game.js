@@ -73,7 +73,13 @@ export default class Game extends Component {
             });
             break;
           case "victory":
-            newState.leaderboard[data.victor_user_id]++;
+            newState.victories[data.victor_user_id]++;
+            if (newState.victories[data.victor_user_id] >= 3) {
+              newState.stage = "leaderboard";
+            } else {
+              newState.stage = "answer";
+            }
+
             break;
           default:
             console.log("invalid server event?", data);
@@ -98,11 +104,30 @@ export default class Game extends Component {
     if (this.state.stage === "lobby") {
       return <Lobby client={client} players={this.state.users}></Lobby>;
     } else if (this.state.stage === "canvas") {
-      return <Canvas client={client}></Canvas>;
+      return (
+        <Canvas
+          client={client}
+          thing={this.state.wordHistory[this.state.wordHistory.length - 1]}
+          roundNumber={this.state.wordHistory.length}
+        ></Canvas>
+      );
     } else if (this.state.stage === "answer") {
       return <AnswerResults client={client}></AnswerResults>;
     } else if (this.state.stage === "leaderboard") {
-      return <Leaderboard client={client}></Leaderboard>;
+      return (
+        <Leaderboard
+          client={client}
+          position={1}
+          users={this.state.users.map((user) => {
+            const info = {
+              name: user.name,
+              total: this.state.wordHistory.length,
+              score: this.state.victories[user.user_id],
+            };
+            return info;
+          })}
+        ></Leaderboard>
+      );
     } else {
       return <div>something is wrong!</div>;
     }
