@@ -51,7 +51,7 @@ const Modal = ({ isShowing, toggle, text, changeText, name, changeName }) =>
                 <div
                   style={{ display: "flex", justifyContent: "space-between" }}
                 >
-                  <a href={`/play?method=join&guild=${text}&name=${name}`}>
+                  <a href={`/join?guild=${123}`}>
                     <Button dark={true}>enter the room</Button>
                   </a>
                   <a href={`/host?guild=${123}`}>
