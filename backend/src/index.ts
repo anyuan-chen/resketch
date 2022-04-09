@@ -37,6 +37,7 @@ server.on("connection", (socket, req) => {
       newUser.error("GuildNotFound");
       return socket.close();
     }
+    guilds[guildHash].addUser(newUser);
   } else if (url.pathname.endsWith("/host")) {
     // create new game
     newUser.isHost = true;
