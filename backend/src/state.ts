@@ -227,11 +227,11 @@ class GameManager {
 
     for (const u of users) {
       if (this.images[u.id]) {
+        console.log(this.images[u.id]);
         getLabels(this.images[u.id]).then((e) => {
           const current = e.find(
             (i) => i.label.toLowerCase() === this.activeWord
           );
-          console.log(e);
           if (current) {
             this.confidences[u.id] = current.confidence;
           }
