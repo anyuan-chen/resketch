@@ -61,7 +61,7 @@ const Modal = ({ isShowing, toggle, text, changeText, name, changeName }) =>
                   </Link>
                   <Link href={`/host?room=${text}&name=${name}`}>
                     <a>
-                      <Button>start the game!</Button>
+                      <Button>host the room</Button>
                     </a>
                   </Link>
                 </div>

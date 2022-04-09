@@ -5,8 +5,7 @@ import Leaderboard from "../components/leaderboard";
 import AnswerResults from "../components/answerResults";
 
 export default function Play() {
-  var exampleSocket = new WebSocket("ws://localhost:8080/");
-
+  var exampleSocket = new WebSocket("wss://api.eggworld.tk/sketch/");
   const [stage, setStage] = useState("lobby");
   const ActiveComponent = <Lobby></Lobby>;
   useEffect(() => {});
