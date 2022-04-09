@@ -36,12 +36,44 @@ export default class Game extends Component {
     };
 
     client.onmessage = (e) => {
-      const event = e.data;
-      console.log(event);
-      this.setState((state) => ({
-        ...this.state,
-        users: client.users,
-      }));
+      const data = e.data;
+      console.log(data);
+      this.setState((state) => {
+        const newState = { ...this.state };
+        switch (data) {
+          case "user_update":
+            newState.users = data.users;
+            newState.guild_id = data.guild_id;
+            for (const u of newState.users) {
+              if (!newState.victories.hasOwnProperty(u.id)) {
+                // if not present in leaderboard
+                newState.victories[u.id] = 0;
+              }
+              if (!newState.confidences.hasOwnProperty(u.id)) {
+                // if not present in confidences
+                newState.confidences[u.id] = 0;
+              }
+            }
+            break;
+          case "new_round":
+            newState.currentRound++;
+            newState.wordHistory.push(data.word);
+            newState.totalRounds = data.total_rounds;
+            break;
+          case "draw":
+            data.images.forEach(({ user_id, content, confidence }) => {
+              newState.images[user_id] = content;
+              newState.confidences[user_id] = confidence;
+            });
+            break;
+          case "victory":
+            newState.leaderboard[data.victor_user_id]++;
+            break;
+          default:
+            console.log("invalid server event?", data);
+        }
+        return newState;
+      });
     };
   }
 
