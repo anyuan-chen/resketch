@@ -11,8 +11,13 @@ const Container = styled.div`
   font-size: 24px;
   text-align: center;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  transition: 0.5s; 
   width: ${(props) =>
     props.width !== undefined ? `${props.width}px` : "auto"};
+  &:hover {
+    box-shadow: 0 0.5em 0.5em -0.4em #121610;
+    transform: translateY(-0.15em);
+  }
 `;
 
 export default function Button({ children, dark, width }) {
