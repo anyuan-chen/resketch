@@ -42,7 +42,7 @@ async function getLabels(imagebase64: string) {
   const filtered: ImageResult[] =
     labels?.map((label: { [key: string]: number | string }) => {
       return {
-        confidence: label["confidence"] ?? 0,
+        confidence: label["score"] ?? 0,
         label: label["description"] ?? "No description",
       };
     }) ?? [];
