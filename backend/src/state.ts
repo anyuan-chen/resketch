@@ -5,6 +5,7 @@ export class Guild {
   rounds = 0;
   alive = true;
   id: string;
+
   constructor(id: string, rounds: number) {
     this.rounds = rounds;
     this.id = id;
@@ -58,5 +59,17 @@ export class Guild {
         return { id: e.id, name: e.name, isHost: e.isHost };
       }),
     };
+  }
+}
+
+class GameManager {
+  activeWord: string = "";
+  images: { [key: string]: string } = {}; // uuid: base64 png
+  currentRound: number = 0;
+  totalRounds: number;
+  wordHistory: string[] = [];
+
+  constructor(rounds: number) {
+    this.totalRounds = rounds - 1;
   }
 }

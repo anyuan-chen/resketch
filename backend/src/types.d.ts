@@ -23,6 +23,11 @@ interface UserEvent extends Event {
   users: { name: string; id: string }[];
 }
 
+interface ErrorEvent extends Event {
+  event: "error";
+  error: string;
+}
+
 interface ImageResults {
   label: string;
   confidence: number;
