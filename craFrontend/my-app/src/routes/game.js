@@ -1,15 +1,28 @@
-import React from "react";
-import { SocketAPI } from "../utils/socketapi";
+import React, { Component } from "react";
 
-export default function Game() {
-  const server = new SocketAPI();
+const API_ENDPOINT = "ws://localhost:8080";
 
-  const [users, setUsers] = React.useState(server.users);
+const url = new URL(window.location.href);
+const client = new WebSocket(
+  `${API_ENDPOINT}${url.pathname}?guild=${url.searchParams.get(
+    "guild"
+  )}&rounds=${url.searchParams.get("rounds")}`
+);
 
-  React.useEffect(() => {
-    setUsers(server.users)
-  }, [server.users])
-  
+export default class Game extends Component {
+  state = {
+    users: ["react", "sucks"],
+  };
+  componentDidMount() {
+    client.onopen = () => {
+      console.log("WebSocket Client Connected");
+      this.setState((state) => ({
+        users: client.users
+      }));
+    };
+    client.onmessage = () => {};
+  }
+
   // watch the following for server changes:
   /*
    * server.users
@@ -21,5 +34,7 @@ export default function Game() {
    * server.confidences
    * server.currentWord
    */
-  return <div></div>;
+  render() {
+    return <div>{JSON.stringify(this.state.users)}</div>;
+  }
 }
