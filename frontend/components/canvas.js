@@ -61,7 +61,7 @@ export default function Canvas() {
         ctxRef.current.stroke();
     };
 
-    const roundData = [
+    const roundData = [ // dummy data
         {
             roundNumber: 1,
             state: "correct",
