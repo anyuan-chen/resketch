@@ -225,7 +225,7 @@ class GameManager {
     if (!this.gamePlaying) return [];
     const winners = users.filter(
       (u) =>
-        this.confidences[u.id] >= WIN_CONFIDENCE_THRESHOLD || this.times > 5 // if 5 secs pass game over
+        this.confidences[u.id] >= WIN_CONFIDENCE_THRESHOLD || this.times > 10 // if 5 secs pass game over
     );
 
     for (const u of users) {
