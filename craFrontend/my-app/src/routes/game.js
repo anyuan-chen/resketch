@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Lobby from "../components/lobby";
 
 const API_ENDPOINT = "ws://localhost:8080";
 
@@ -89,6 +90,6 @@ export default class Game extends Component {
    * server.currentWord
    */
   render() {
-    return <div>{JSON.stringify(this.state.users)}</div>;
+    return <Lobby players={this.state.users}></Lobby>;
   }
 }
