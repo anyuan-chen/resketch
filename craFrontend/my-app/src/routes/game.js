@@ -9,18 +9,40 @@ const client = new WebSocket(
   )}&rounds=${url.searchParams.get("rounds")}`
 );
 
+const name = url.searchParams.get("name");
+
 export default class Game extends Component {
   state = {
-    users: ["react", "sucks"],
+    users: [],
+    guild_id: 0,
+    currentRound: 1,
+    totalRounds: 3,
+    victories: {}, // uuid: int
+    images: {}, // uuid: base64 encoded string
+    confidences: {}, // uuid: decimal percentage (0 <= x <= 1)
+    wordHistory: [],
   };
+
+  send(object) {
+    client.send(JSON.stringify(object));
+  }
+
   componentDidMount() {
     client.onopen = () => {
       console.log("WebSocket Client Connected");
+      if (name) {
+        this.send({ action: "set_profile", name: name });
+      }
+    };
+
+    client.onmessage = (e) => {
+      const event = e.data;
+      console.log(event);
       this.setState((state) => ({
-        users: client.users
+        ...this.state,
+        users: client.users,
       }));
     };
-    client.onmessage = () => {};
   }
 
   // watch the following for server changes:
