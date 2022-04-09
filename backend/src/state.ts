@@ -231,6 +231,7 @@ class GameManager {
           const current = e.find(
             (i) => i.label.toLowerCase() === this.activeWord
           );
+          console.log(e);
           if (current) {
             this.confidences[u.id] = current.confidence;
           }
