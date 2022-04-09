@@ -10,7 +10,6 @@ server.on("connection", (socket) => {
     id: crypto.randomUUID(),
     name: "Unnamed",
   };
-
   globalState.addUser(newUser);
 });
 
