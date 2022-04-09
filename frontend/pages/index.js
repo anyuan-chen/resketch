@@ -45,7 +45,13 @@ export default function Home() {
               #0e312b 0.98%,
               rgba(25, 74, 39, 0.7) 101.17%
             );
+            background-size: 400% 400%; 
+            animation: gradient 100s ease infinite; 
           }
+          @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         `}
       </style>
     </div>
