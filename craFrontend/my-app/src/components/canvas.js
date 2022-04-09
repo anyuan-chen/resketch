@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import Button from "./button.js";
 
-export default function Canvas({ client }) {
+export default function Canvas({ client, thing, roundNumber }) {
   const canvasRef = useRef(null);
   const ctxRef = useRef(null);
   const [isDrawing, setIsDrawing] = useState(false);
@@ -156,9 +156,9 @@ export default function Canvas({ client }) {
         <div className="flex flex-col justify-center items-center w-2/3 space-y-8">
           <div className="flex items-center w-full bg-[#E9E9E9] rounded-xl px-4 font-[Inter]">
             <div className="w-1/3 py-4 text-lg text-gray-500">
-              Round 1 out of 3:
+              Round {roundNumber} out of 3:
             </div>
-            <div className="w-1/3 text-center text-3xl">draw a car</div>
+            <div className="w-1/3 text-center text-3xl">draw a {thing}</div>
             <div className="w-1/3 py-4" />
           </div>
           <div className="flex space-x-8 w-full h-full">
