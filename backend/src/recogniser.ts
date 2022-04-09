@@ -2,6 +2,7 @@ import { ImageResult } from "./types";
 import { ImageAnnotatorClient } from "@google-cloud/vision";
 
 async function getLabels(imagebase64: string) {
+  console.log(imagebase64);
   const client = new ImageAnnotatorClient();
   const [result] = await client.labelDetection(imagebase64);
   const labels = result.labelAnnotations;
