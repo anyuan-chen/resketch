@@ -6,6 +6,7 @@ const Container = styled.div`
   background: #82A08A;
   border-radius: 16px;
   padding: 8px 32px;
+  width: 750px;  
 `;
 const Text = styled.h2`
   font-family: "Inter";
