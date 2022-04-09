@@ -1,6 +1,7 @@
 import { ImageResult } from "./types";
 import { ImageAnnotatorClient } from "@google-cloud/vision";
 import fetch from "node-fetch";
+import secret from "./secret.json";
 
 async function getLabels(imagebase64: string) {
   const obj = {
@@ -27,10 +28,14 @@ async function getLabels(imagebase64: string) {
   */
 
   const result = await fetch(
-    "https://vision.googleapis.com/v1/images:annotate",
+    `https://vision.googleapis.com/v1/images:annotate?key=${secret.key}`,
     {
       method: "post",
       body: JSON.stringify(obj),
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
     }
   );
   const labels = ((await result.json()) as { [key: string]: any })
