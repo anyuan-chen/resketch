@@ -2,8 +2,7 @@ import { WebSocket, WebSocketServer } from "ws";
 import crypto from "crypto";
 import { Guild } from "./state";
 import { randomGuildId } from "./utils/rng";
-import { createError } from "./utils/errors";
-import { Event, User } from "./types";
+import { ErrorEvent, Event, User } from "./types";
 
 const DEFAULT_NUM_ROUNDS = 5;
 
@@ -18,6 +17,11 @@ server.on("connection", (socket, req) => {
     send(event: Event) {
       this.socket.send(JSON.stringify(event));
     },
+
+    error(msg: string) {
+      const errorEvent: ErrorEvent = { event: "error", error: msg };
+      this.send(errorEvent);
+    },
   };
 
   const url = new URL(req.url ?? "", `http://${req.headers.host}`);
@@ -28,18 +32,18 @@ server.on("connection", (socket, req) => {
   if (url.pathname.endsWith("/join")) {
     // add to existing guild
     if (!guildHash) {
-      socket.send(JSON.stringify(createError("MissingGuildField")));
+      newUser.error("MissingGuildField");
       return socket.close();
     }
     if (!guilds[guildHash]?.alive) {
-      socket.send(JSON.stringify(createError("GuildNotFound")));
+      newUser.error("GuildNotFound");
       return socket.close();
     }
   } else if (url.pathname.endsWith("/host")) {
     // create new game
     newUser.isHost = true;
     if (guildHash) {
-      socket.send(JSON.stringify(createError("ExtraGuildParam")));
+      newUser.error("ExtraGuildParam");
       return socket.close();
     }
 

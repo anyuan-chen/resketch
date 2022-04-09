@@ -5,7 +5,13 @@ interface User {
   name: string;
   socket: WebSocket;
   send: (event: Event) => void;
+  error: (msg: string) => void;
   isHost?: boolean;
+}
+
+interface ImageResults {
+  label: string;
+  confidence: number;
 }
 
 interface Event {
@@ -28,9 +34,27 @@ interface ErrorEvent extends Event {
   error: string;
 }
 
-interface ImageResults {
-  label: string;
-  confidence: number;
+interface Action {
+  action: string;
+  name?: string;
+  image?: string;
+}
+interface SetProfileAction {
+  action: "set_profile";
+  name: string;
+}
+
+interface UpdateImageAction {
+  action: "draw";
+  image: string;
+}
+
+interface StartAction {
+  action: "begin";
+}
+
+interface ReadyAction {
+  action: "finished";
 }
 interface Query {
   locations: string[];

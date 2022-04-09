@@ -1,14 +1,16 @@
-import { Event, User, UserEvent } from "./types";
+import { Action, Event, User, UserEvent } from "./types";
 
 export class Guild {
   users: User[] = [];
   rounds = 0;
   alive = true;
   id: string;
+  game: GameManager;
 
   constructor(id: string, rounds: number) {
     this.rounds = rounds;
     this.id = id;
+    this.game = new GameManager(rounds);
   }
 
   addUser(user: User) {
@@ -21,7 +23,30 @@ export class Guild {
 
   configureUser(user: User) {
     // on receive
-    user.socket.on("message", (msg) => {});
+    user.socket.on("message", (msg) => {
+      try {
+        const data: Action = JSON.parse(msg.toString());
+        switch (data.action) {
+          case "set_profile":
+            if (!data.name) {
+              return user.error("MissingName");
+            }
+            user.name = data.name;
+            return;
+          case "draw":
+            if (!data.image) {
+              return user.error("MissingImage");
+            }
+          case "finished":
+          case "begin":
+          case undefined:
+          case null:
+            return user.error("MissingAction");
+        }
+      } catch (SyntaxError) {
+        return user.error("MalformedJSON");
+      }
+    });
 
     // for quitting
     user.socket.on("close", () => {
