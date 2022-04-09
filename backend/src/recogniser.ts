@@ -35,7 +35,7 @@ async function getLabels(imagebase64: string) {
     }
   );
   const json = (await result.json()) as { [key: string]: any };
-  const labels = json.labelAnnotations;
+  const labels = json.responses[0].labelAnnotations;
   console.log(labels);
   //console.log(json);
 
