@@ -4,6 +4,8 @@ interface User {
   id: string;
   name: string;
   socket: WebSocket;
+  send: (event: Event) => void;
+  isHost?: boolean;
 }
 
 interface Event {
@@ -12,5 +14,6 @@ interface Event {
 
 interface UserEvent extends Event {
   event: "user_update";
+  guild_id: string;
   users: { name: string; id: string }[];
 }

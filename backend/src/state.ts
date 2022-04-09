@@ -1,9 +1,13 @@
 import { Event, User, UserEvent } from "./types";
 
-class State {
+export class Guild {
   users: User[] = [];
-  constructor() {
-    console.log(this.users);
+  rounds = 0;
+  alive = true;
+  id: string;
+  constructor(id: string, rounds: number) {
+    this.rounds = rounds;
+    this.id = id;
   }
 
   addUser(user: User) {
@@ -22,26 +26,37 @@ class State {
     user.socket.on("close", () => {
       this.users = this.users.filter((s) => s.id !== user.id);
       console.log(`User left, now ${this.users.length}`);
+
+      if (user.isHost) {
+        if (this.users.length !== 0) {
+          this.users[0].isHost = true;
+        }
+
+        console.log("Host left, finding new host");
+      }
+
       this.fireEventAll(this.generateUserEvent());
+
+      if (this.users.length === 0) {
+        this.alive = false;
+        console.log(`All members left, shutting down guild ${this.id}`);
+      }
     });
   }
 
   fireEventAll(event: Event) {
     for (const u of this.users) {
-      u.socket.send(JSON.stringify(event));
+      u.send(event);
     }
   }
 
   generateUserEvent(): UserEvent {
     return {
       event: "user_update",
+      guild_id: this.id,
       users: this.users.map((e) => {
-        return { id: e.id, name: e.name };
+        return { id: e.id, name: e.name, isHost: e.isHost };
       }),
     };
   }
 }
-
-const globalState = new State();
-
-export default globalState;
