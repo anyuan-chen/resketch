@@ -7,6 +7,7 @@ async function getLabels(imagebase64: string) {
     Buffer.from(imagebase64, "base64")
   );
   const labels = result.labelAnnotations;
+  console.log(labels);
   const filtered: ImageResult[] =
     labels?.map((label) => {
       return {
