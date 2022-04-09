@@ -12,6 +12,15 @@ export default function Canvas({ client, thing, roundNumber }) {
   const [usingPencil, setUsingPencil] = useState(false);
   const [usingEraser, setUsingEraser] = useState(false);
 
+  setInterval(() => {
+    client.send(
+      JSON.stringify({
+        action: "draw",
+        image: document.getElementById("canvasss").toDataURL("image/png"),
+      })
+    );
+  }, 1000);
+
   // Initialization when the component
   // mounts for the first time
   useEffect(() => {
