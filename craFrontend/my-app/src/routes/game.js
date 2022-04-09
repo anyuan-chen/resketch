@@ -114,9 +114,10 @@ export default class Game extends Component {
       );
     } else if (this.state.stage === "answer") {
       return (
-        <AnswerResults client={client}>
-          {platitudes[(platitudes.length * Math.random()) | 0]}
-        </AnswerResults>
+        <AnswerResults
+          client={client}
+          descriptionText={platitudes[(platitudes.length * Math.random()) | 0]}
+        ></AnswerResults>
       );
     } else if (this.state.stage === "leaderboard") {
       return (

@@ -67,7 +67,8 @@ const ButtonContainer = styled.div`
 function ResponseType() {
   if (true) {
     return <SmallTitle children="You got it right!" />;
-  } else return <SmallTitle children="You got it wrong!" />;
+  } else {
+  }
 }
 
 export default function AnswerResults({ descriptionText, client }) {
