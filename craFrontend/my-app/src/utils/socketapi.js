@@ -26,6 +26,7 @@ export class SocketAPI {
 
     this.socket.addEventListener("message", (event) => {
       const data = JSON.parse(event.data);
+      console.log("received", data);
       switch (data.event) {
         case "user_update":
           this.users = data.users;
@@ -81,11 +82,11 @@ export class SocketAPI {
 
   stateFillMissingUsers() {
     for (const u of this.users) {
-      if (!this.leaderboard[u.id] >= 0) {
+      if (!this.victories.hasOwnProperty(u.id)) {
         // if not present in leaderboard
-        this.leaderboard[u.id] = 0;
+        this.victories[u.id] = 0;
       }
-      if (!this.confidences[u.id] >= 0) {
+      if (!this.confidences.hasOwnProperty(u.id)) {
         // if not present in confidences
         this.confidences[u.id] = 0;
       }

@@ -17,7 +17,7 @@ export default class Game extends Component {
     client.onopen = () => {
       console.log("WebSocket Client Connected");
       this.setState((state) => ({
-        users: client.users
+        users: client.users,
       }));
     };
     client.onmessage = () => {};
