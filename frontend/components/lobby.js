@@ -1,3 +1,5 @@
+/* eslint-disable react/no-children-prop */
+/* eslint-disable react/jsx-key */
 import React, { useState } from 'react';
 import SmallTitle from './smallTitle';
 import Body from './body';

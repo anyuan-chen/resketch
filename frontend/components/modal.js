@@ -40,7 +40,7 @@ const Modal = ({ isShowing, toggle, text, changeText, name, changeName }) =>
                   {}
                 </input>
                 <Body>
-                  <div style={{ color: "black" }}>name</div>
+                  <div style={{ color: "black" }}>choose a name</div>
                 </Body>
                 <input
                   id="form"
@@ -49,13 +49,22 @@ const Modal = ({ isShowing, toggle, text, changeText, name, changeName }) =>
                 >
                   {}
                 </input>
-                <Link href={`/play?room=${text}&name=${name}`}>
-                  <a>
-                    <Button dark={true} width={110}>
-                      enter
-                    </Button>
-                  </a>
-                </Link>
+                <div
+                  style={{ display: "flex", justifyContent: "space-between" }}
+                >
+                  <Link href={`/join?room=${text}&name=${name}`}>
+                    <a>
+                      <Button dark={true}>
+                        enter the room
+                      </Button>
+                    </a>
+                  </Link>
+                  <Link href={`/host?room=${text}&name=${name}`}>
+                    <a>
+                      <Button>start the game!</Button>
+                    </a>
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
@@ -64,7 +73,7 @@ const Modal = ({ isShowing, toggle, text, changeText, name, changeName }) =>
               #container {
                 display: flex;
                 flex-direction: column;
-                row-gap: 16px;
+                row-gap: 24px;
               }
               #header {
                 display: flex;
@@ -107,8 +116,9 @@ const Modal = ({ isShowing, toggle, text, changeText, name, changeName }) =>
                 position: relative;
                 margin: 1.75rem auto;
                 border-radius: 32px;
-                max-width: 500px;
+                max-width: 550px;
                 padding: 2rem;
+                
               }
 
               .modal-header {

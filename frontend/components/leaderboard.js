@@ -50,8 +50,8 @@ export default function Leaderboard({position}) {
             <SmallTitle>
                 You won {place}!
             </SmallTitle>
-            {users.map((user) => {
-                return <LeaderboardEntry name = {user.name} score = {user.score} total = {user.total} /> 
+            {users.map((user, index) => {
+                return <LeaderboardEntry key="index" name = {user.name} score = {user.score} total = {user.total} /> 
             })}
             <Button dark = {false} width = "300"> 
                 <a href = "">back to main menu</a>
