@@ -52,6 +52,21 @@ export class SocketAPI {
     });
   }
 
+  sendCanvasAction(newImage) {
+    this.send({
+      action: "draw",
+      image: newImage,
+    });
+  }
+
+  sendFinishedAction() {
+    this.send({ action: "finished" });
+  }
+
+  sendBeginGameAction() {
+    this.send({ action: "begin" });
+  }
+
   sendUserAction(newName) {
     this.send({
       action: "set_profile",
