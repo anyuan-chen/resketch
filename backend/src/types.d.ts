@@ -17,3 +17,8 @@ interface UserEvent extends Event {
   guild_id: string;
   users: { name: string; id: string }[];
 }
+
+interface ImageResults {
+  label: string;
+  confidence: number;
+}
