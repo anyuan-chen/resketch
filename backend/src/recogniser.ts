@@ -1,5 +1,6 @@
 import { ImageResult } from "./types";
 import { ImageAnnotatorClient } from "@google-cloud/vision";
+import fetch from "node-fetch";
 
 async function getLabels(imagebase64: string) {
   const obj = {
@@ -32,7 +33,8 @@ async function getLabels(imagebase64: string) {
       body: JSON.stringify(obj),
     }
   );
-  const labels = (await result.json()).labelAnnotations;
+  const labels = ((await result.json()) as { [key: string]: any })
+    .labelAnnotations;
 
   const filtered: ImageResult[] =
     labels?.map((label: { [key: string]: number | string }) => {
