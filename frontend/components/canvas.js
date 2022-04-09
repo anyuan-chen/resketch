@@ -8,6 +8,9 @@ export default function Canvas() {
     const [lineWidth, setLineWidth] = useState(5);
     const [lineColor, setLineColor] = useState("black");
     const [lineOpacity, setLineOpacity] = useState(1);
+
+    const [usingPencil, setUsingPencil] = useState(false);
+    const [usingEraser, setUsingEraser] = useState(false);
     
     // Initialization when the component
     // mounts for the first time
@@ -23,14 +26,17 @@ export default function Canvas() {
     }, [lineColor, lineOpacity, lineWidth]);
 
     const changeToEraser = () => {
-        console.log("hi");
         setLineWidth(50);
         setLineColor("white");
+        setUsingPencil(false);
+        setUsingEraser(true);
     }
 
     const changeToPencil = () => {
         setLineColor("black");
         setLineWidth(5);
+        setUsingEraser(false);
+        setUsingPencil(true);
     }
     
     // Function for starting the drawing
@@ -94,6 +100,44 @@ export default function Canvas() {
         }
     });
 
+    const selectPencilDiv = (
+        <div 
+            className="h-1/2 flex bg-[#0E312B] justify-center items-center px-4 hover:cursor-pointer rounded-t-3xl select-none">
+            <img src="../assets/Ellipse_inverted.svg" draggable="false"/>
+        </div>
+    );
+
+    const defaultPencilDiv = (
+        <div onClick={() => changeToPencil()} 
+            className="h-1/2 flex border-b-2 border-b-black justify-center items-center px-4 hover:cursor-pointer select-none">
+            <img src="../assets/Ellipse.svg" draggable="false"/>
+        </div>
+    );
+
+    const selectEraserDiv = (
+        <div
+            className="h-1/2 flex bg-[#0E312B] justify-center items-center px-4 hover:cursor-pointer rounded-b-3xl select-none">
+            <img src="../assets/Eraser_inverted.png" draggable="false"/>
+        </div>
+    );
+
+    const defaultEraserDiv = (
+        <div onClick={() => changeToEraser()}
+            className="h-1/2 flex border-t-2 border-t-black justify-center items-center px-4 hover:cursor-pointer select-none">
+            <img src="../assets/Eraser.png" draggable="false"/>
+        </div>
+    );
+
+    const getCanvasName = () => {
+        if(usingPencil) {
+            return "rounded-3xl cursor-crosshair";
+        }
+        if(usingEraser) {
+            return "rounded-3xl cursor-eraser";
+        }
+        return "rounded-3xl";
+    }
+
     return (
         <div>
             <div id="over-container">
@@ -122,19 +166,13 @@ export default function Canvas() {
                                     ref={canvasRef}
                                     width={`860px`} 
                                     height={`480px`}
-                                    className="rounded-3xl"
+                                    className={getCanvasName()}
                                 />
                             </div>
                         </div>
-                        <div className="flex flex-col bg-white rounded-3xl">
-                            <div onClick={() => changeToPencil()} 
-                                className="h-1/2 flex border-b-2 border-b-black justify-center items-center px-4 hover:cursor-pointer">
-                                <img src="../assets/Ellipse.svg"/>
-                            </div>
-                            <div onClick={() => changeToEraser()} 
-                                className="h-1/2 flex border-t-2 border-t-black justify-center items-center px-4 hover:cursor-pointer"> 
-                                <img src="../assets/Eraser.png"/>
-                            </div>
+                        <div className="flex flex-col border-2 bg-white rounded-3xl">
+                            {usingPencil? selectPencilDiv : defaultPencilDiv}
+                            {usingEraser? selectEraserDiv : defaultEraserDiv}
                         </div>
                     </div>
                     <div className="flex w-full space-x-32 font-[Inter] font-bold">

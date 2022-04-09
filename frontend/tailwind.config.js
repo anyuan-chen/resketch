@@ -4,7 +4,11 @@ module.exports = {
     "./components/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      cursor: {
+        'eraser' : "url('../public/assets/Eraser_Cursor.png'), auto",
+      }
+    },
   },
   plugins: [],
 }
