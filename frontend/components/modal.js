@@ -52,14 +52,14 @@ const Modal = ({ isShowing, toggle, text, changeText, name, changeName }) =>
                 <div
                   style={{ display: "flex", justifyContent: "space-between" }}
                 >
-                  <Link href={`/join?room=${text}&name=${name}`}>
+                  <Link href={`/play?method="join"&room=${text}&name=${name}`}>
                     <a>
                       <Button dark={true}>
                         enter the room
                       </Button>
                     </a>
                   </Link>
-                  <Link href={`/host?room=${text}&name=${name}`}>
+                  <Link href={`/play?method="host"&room=${text}&name=${name}`}>
                     <a>
                       <Button>host the room</Button>
                     </a>
