@@ -4,7 +4,7 @@ import AnswerResults from "../components/answerResults";
 import Canvas from "../components/canvas";
 import Leaderboard from "../components/leaderboard";
 
-const API_ENDPOINT = "ws://localhost:8080";
+const API_ENDPOINT = "wss://api.eggworld.tk/sketch";
 
 const url = new URL(window.location.href);
 const client = new WebSocket(
