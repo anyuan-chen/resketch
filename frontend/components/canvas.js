@@ -142,7 +142,7 @@ export default function Canvas() {
                             {roundList}
                         </div>
                         <button onClick={() => {}}>
-                            <Button children="Submit Drawing" width="320"/>
+                            <Button width="320">Submit Drawing</Button>
                         </button>
                     
                     </div>
