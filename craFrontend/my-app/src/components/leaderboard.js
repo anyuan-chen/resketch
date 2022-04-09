@@ -30,6 +30,7 @@ const Container = styled.div`
 `;
 
 export default function Leaderboard({position, users}) {
+
     //name, score, total needed for users
     let place = ""; 
     if(position == 1) { 

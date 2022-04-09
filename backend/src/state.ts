@@ -45,7 +45,6 @@ export class Guild {
   configureUser(user: User) {
     // on receive
     user.socket.on("message", (msg) => {
-      console.log(msg);
       try {
         const data: Action = JSON.parse(msg.toString());
         switch (data.action) {
@@ -118,7 +117,6 @@ export class Guild {
   }
 
   fireEventAll(event: Event) {
-    console.log("Fired event to all users: ", event);
     for (const u of this.users) {
       u.send(event);
     }
@@ -137,7 +135,6 @@ export class Guild {
   generateNewRoundEvent(word: string): NewRoundEvent {
     return {
       event: "new_round",
-      total_rounds: this.rounds,
       word: word,
     };
   }
@@ -176,7 +173,6 @@ class GameManager {
   userFinished: { [key: string]: boolean } = {}; // uuid: if ready
 
   sinceLastSync = 0;
-  times = 0;
 
   constructor(rounds: number) {
     this.totalRounds = rounds;
@@ -218,19 +214,13 @@ class GameManager {
   }
 
   reviewImages(users: User[]): User[] {
-    this.times++;
     // accept ids to check
     // return all people who are above confidence threshold
     // also adjust the confidence thingies
     if (!this.gamePlaying) return [];
     const winners = users.filter(
-      (u) =>
-        this.confidences[u.id] >= WIN_CONFIDENCE_THRESHOLD || this.times > 12 // if 5 secs pass game over
+      (u) => this.confidences[u.id] >= WIN_CONFIDENCE_THRESHOLD
     );
-
-    if (this.times > 13) {
-      this.times = 0;
-    }
 
     for (const u of users) {
       if (this.images[u.id]) {

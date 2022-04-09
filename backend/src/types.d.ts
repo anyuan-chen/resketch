@@ -31,7 +31,6 @@ interface UserEvent extends Event {
 
 interface NewRoundEvent extends Event {
   event: "new_round";
-  total_rounds: number;
   word: string;
 }
 

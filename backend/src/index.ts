@@ -24,7 +24,7 @@ server.on("connection", (socket, req) => {
   };
 
   const url = new URL(`http://${req.headers.host}${req.url}`);
-  console.log("new user joined");
+  console.log(url);
   const guildHash = url.searchParams.get("guild");
   const rounds = parseInt(url.searchParams.get("rounds") || "0") || NUM_ROUNDS;
   if (url.pathname.endsWith("/join")) {
@@ -37,7 +37,6 @@ server.on("connection", (socket, req) => {
       newUser.error("GuildNotFound");
       return socket.close();
     }
-    guilds[guildHash].addUser(newUser);
   } else if (url.pathname.endsWith("/host")) {
     // create new game
     newUser.isHost = true;
