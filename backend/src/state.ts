@@ -118,6 +118,7 @@ export class Guild {
   }
 
   fireEventAll(event: Event) {
+    console.log("Fired event to all users: ", event);
     for (const u of this.users) {
       u.send(event);
     }
