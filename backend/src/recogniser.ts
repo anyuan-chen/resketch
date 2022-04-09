@@ -2,16 +2,43 @@ import { ImageResult } from "./types";
 import { ImageAnnotatorClient } from "@google-cloud/vision";
 
 async function getLabels(imagebase64: string) {
+  const obj = {
+    requests: [
+      {
+        features: [
+          {
+            maxResults: 50,
+            type: "LABEL_DETECTION",
+          },
+        ],
+        image: {
+          content: imagebase64,
+        },
+      },
+    ],
+  };
+  /*
   const client = new ImageAnnotatorClient();
   const [result] = await client.labelDetection(
     Buffer.from(imagebase64, "base64")
   );
-  const labels = result.labelAnnotations;
+
+  */
+
+  const result = await fetch(
+    "https://vision.googleapis.com/v1/images:annotate",
+    {
+      method: "post",
+      body: JSON.stringify(obj),
+    }
+  );
+  const labels = (await result.json()).labelAnnotations;
+
   const filtered: ImageResult[] =
-    labels?.map((label) => {
+    labels?.map((label: { [key: string]: number | string }) => {
       return {
-        confidence: label.confidence ?? 0,
-        label: label.description ?? "No description",
+        confidence: label["confidence"] ?? 0,
+        label: label["description"] ?? "No description",
       };
     }) ?? [];
   return filtered;
