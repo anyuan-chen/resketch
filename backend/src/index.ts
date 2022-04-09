@@ -40,14 +40,10 @@ server.on("connection", (socket, req) => {
   } else if (url.pathname.endsWith("/host")) {
     // create new game
     newUser.isHost = true;
-    if (guildHash) {
-      newUser.error("ExtraGuildParam");
-      return socket.close();
-    }
 
     let newGuildId;
     do {
-      newGuildId = randomGuildId();
+      newGuildId = guildHash || randomGuildId();
     } while (guilds[newGuildId]?.alive);
 
     console.log(`Created guild ${newGuildId}`);
