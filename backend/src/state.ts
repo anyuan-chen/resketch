@@ -1,4 +1,5 @@
-import { Action, Event, User, UserEvent } from "./types";
+import { Action, Event, NewRoundEvent, User, UserEvent } from "./types";
+import wordlist from "./data/wordlist.json";
 
 export class Guild {
   users: User[] = [];
@@ -32,13 +33,34 @@ export class Guild {
               return user.error("MissingName");
             }
             user.name = data.name;
+            this.fireEventAll(this.generateUserEvent());
             return;
           case "draw":
             if (!data.image) {
               return user.error("MissingImage");
             }
+            return;
           case "finished":
+            this.game.markFinished(user);
+            if (this.users.every((u) => this.game.userFinished[u.id])) {
+              // if everyone is done go next round
+              if (this.game.startNextRound()) {
+                this.fireEventAll(
+                  this.generateNewRoundEvent(this.game.activeWord)
+                );
+              }
+            }
+            return;
           case "begin":
+            if (user.isHost) {
+              this.game.beginRound();
+              this.fireEventAll(
+                this.generateNewRoundEvent(this.game.activeWord)
+              );
+            } else {
+              user.error("HostOnlyCommand");
+            }
+            return;
           case undefined:
           case null:
             return user.error("MissingAction");
@@ -85,16 +107,56 @@ export class Guild {
       }),
     };
   }
+
+  generateNewRoundEvent(word: string): NewRoundEvent {
+    return {
+      event: "new_round",
+      word: word,
+    };
+  }
 }
 
 class GameManager {
-  activeWord: string = "";
+  activeWord = "";
   images: { [key: string]: string } = {}; // uuid: base64 png
-  currentRound: number = 0;
+  currentRound = 1;
   totalRounds: number;
   wordHistory: string[] = [];
+  roundOver = false;
+  userFinished: { [key: string]: boolean } = {}; // uuid: if ready
 
   constructor(rounds: number) {
-    this.totalRounds = rounds - 1;
+    this.totalRounds = rounds;
+  }
+
+  markFinished(user: User) {
+    this.userFinished[user.id] = true;
+  }
+
+  setImage(user: User, image: string) {
+    this.images[user.id] = image;
+    // TODO: call api, etc, etc, fancy stuff here
+  }
+
+  startNextRound(): boolean {
+    // TODO: return true if ok, send new word event
+    // return false if we're done, this is the last one
+    this.currentRound++;
+    this.wordHistory.push(this.activeWord);
+    if (this.currentRound <= this.totalRounds) {
+      this.beginRound();
+      return true;
+    }
+    return false;
+  }
+
+  beginRound() {
+    // fetch new unique word
+    let newWord: string;
+    do {
+      // equiv to python's random.choice
+      newWord = wordlist[(wordlist.length * Math.random()) | 0];
+    } while (this.wordHistory.includes(newWord));
+    this.activeWord = newWord;
   }
 }

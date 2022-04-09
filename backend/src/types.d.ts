@@ -29,6 +29,16 @@ interface UserEvent extends Event {
   users: { name: string; id: string }[];
 }
 
+interface NewRoundEvent extends Event {
+  event: "new_round";
+  word: string;
+}
+
+interface VictoryEvent extends Event {
+  event: "victory";
+  victor_user_id: string;
+}
+
 interface ErrorEvent extends Event {
   event: "error";
   error: string;
