@@ -2,9 +2,8 @@ import { WebSocket, WebSocketServer } from "ws";
 import crypto from "crypto";
 import { Guild } from "./state";
 import { randomGuildId } from "./utils/rng";
-import { Event, User } from "./types";
-
-const DEFAULT_NUM_ROUNDS = 5;
+import { ErrorEvent, Event, User } from "./types";
+import { NUM_ROUNDS } from "./data/defaults";
 
 const guilds: { [key: string]: Guild } = {};
 const server = new WebSocketServer({ port: 8080 });
@@ -17,28 +16,32 @@ server.on("connection", (socket, req) => {
     send(event: Event) {
       this.socket.send(JSON.stringify(event));
     },
+
+    error(msg: string) {
+      const errorEvent: ErrorEvent = { event: "error", error: msg };
+      this.send(errorEvent);
+    },
   };
 
   const url = new URL(req.url ?? "", `http://${req.headers.host}`);
   const guildHash = url.searchParams.get("guild");
-  const rounds =
-    parseInt(url.searchParams.get("rounds") || "0") || DEFAULT_NUM_ROUNDS;
+  const rounds = parseInt(url.searchParams.get("rounds") || "0") || NUM_ROUNDS;
 
   if (url.pathname.endsWith("/join")) {
     // add to existing guild
     if (!guildHash) {
-      socket.send(JSON.stringify({ event: "error", error: "EmptyGuildField" }));
+      newUser.error("MissingGuildField");
       return socket.close();
     }
     if (!guilds[guildHash]?.alive) {
-      socket.send(JSON.stringify({ event: "error", error: "GuildNotFound" }));
+      newUser.error("GuildNotFound");
       return socket.close();
     }
   } else if (url.pathname.endsWith("/host")) {
     // create new game
     newUser.isHost = true;
     if (guildHash) {
-      socket.send(JSON.stringify({ event: "error", error: "ExtraParam" }));
+      newUser.error("ExtraGuildParam");
       return socket.close();
     }
 
