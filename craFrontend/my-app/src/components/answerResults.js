@@ -79,7 +79,7 @@ export default function AnswerResults({ descriptionText, client }) {
         <ImageContainer>
           <Description>{descriptionText}</Description>
           <ImageHolder
-            src={`../assets/images/${Math.floor(Math.random() * 3) + 1}.jpg`}
+            src={`../images/${Math.floor(Math.random() * 3) + 1}.jpg`}
           ></ImageHolder>
         </ImageContainer>
         <ButtonContainer>
