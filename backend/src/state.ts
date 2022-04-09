@@ -45,6 +45,7 @@ export class Guild {
   configureUser(user: User) {
     // on receive
     user.socket.on("message", (msg) => {
+      console.log(msg);
       try {
         const data: Action = JSON.parse(msg.toString());
         switch (data.action) {
