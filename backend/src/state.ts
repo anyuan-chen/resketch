@@ -46,7 +46,11 @@ export class Guild {
     // on receive
     user.socket.on("message", (msg) => {
       try {
+        console.log("hey");
+        msg.toString();
+        console.log("why");
         const data: Action = JSON.parse(msg.toString());
+        console.log("how");
         switch (data.action) {
           case "set_profile":
             if (!data.name) {
