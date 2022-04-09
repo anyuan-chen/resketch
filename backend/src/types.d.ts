@@ -39,6 +39,11 @@ interface VictoryEvent extends Event {
   victor_user_id: string;
 }
 
+interface CanvasEvent extends Event {
+  event: "draw";
+  images: { user_id: string; content: string; confidence: number }[];
+}
+
 interface ErrorEvent extends Event {
   event: "error";
   error: string;

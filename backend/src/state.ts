@@ -1,5 +1,13 @@
-import { Action, Event, NewRoundEvent, User, UserEvent } from "./types";
+import {
+  Action,
+  CanvasEvent,
+  Event,
+  NewRoundEvent,
+  User,
+  UserEvent,
+} from "./types";
 import wordlist from "./data/wordlist.json";
+import { WIN_CONFIDENCE_THRESHOLD } from "./data/defaults";
 
 export class Guild {
   users: User[] = [];
@@ -114,11 +122,26 @@ export class Guild {
       word: word,
     };
   }
+
+  generateCanvasEvent(): CanvasEvent {
+    const event: CanvasEvent = {
+      event: "draw",
+      images: this.users.map((u) => {
+        return {
+          user_id: u.id,
+          content: this.game.images[u.id] ?? "",
+          confidence: this.game.confidences[u.id] ?? 0,
+        };
+      }),
+    };
+    return event;
+  }
 }
 
 class GameManager {
   activeWord = "";
   images: { [key: string]: string } = {}; // uuid: base64 png
+  confidences: { [key: string]: number } = {}; // uuid: decimal percentage
   currentRound = 1;
   totalRounds: number;
   wordHistory: string[] = [];
@@ -150,6 +173,9 @@ class GameManager {
     return false;
   }
 
+  // lots of these functions can only be called from Guild
+  // they would be better if they worked together independently
+  // asynchronously but at this point i'm too far gone
   beginRound() {
     // fetch new unique word
     let newWord: string;
@@ -158,5 +184,10 @@ class GameManager {
       newWord = wordlist[(wordlist.length * Math.random()) | 0];
     } while (this.wordHistory.includes(newWord));
     this.activeWord = newWord;
+  }
+
+  reviewImages(userIds: string[] | string): string[] {
+    // accept ids to check
+    // return all people who are above confidence threshold
   }
 }

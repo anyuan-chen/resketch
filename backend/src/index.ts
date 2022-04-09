@@ -3,8 +3,7 @@ import crypto from "crypto";
 import { Guild } from "./state";
 import { randomGuildId } from "./utils/rng";
 import { ErrorEvent, Event, User } from "./types";
-
-const DEFAULT_NUM_ROUNDS = 5;
+import { NUM_ROUNDS } from "./data/defaults";
 
 const guilds: { [key: string]: Guild } = {};
 const server = new WebSocketServer({ port: 8080 });
@@ -26,8 +25,7 @@ server.on("connection", (socket, req) => {
 
   const url = new URL(req.url ?? "", `http://${req.headers.host}`);
   const guildHash = url.searchParams.get("guild");
-  const rounds =
-    parseInt(url.searchParams.get("rounds") || "0") || DEFAULT_NUM_ROUNDS;
+  const rounds = parseInt(url.searchParams.get("rounds") || "0") || NUM_ROUNDS;
 
   if (url.pathname.endsWith("/join")) {
     // add to existing guild
