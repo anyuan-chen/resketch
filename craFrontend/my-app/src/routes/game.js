@@ -122,7 +122,7 @@ export default class Game extends Component {
             const info = {
               name: user.name,
               total: this.state.wordHistory.length,
-              score: this.state.victories[user.user_id],
+              score: this.state.victories[user.id],
             };
             return info;
           })}
