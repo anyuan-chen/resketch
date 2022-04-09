@@ -13,7 +13,7 @@ const name = url.searchParams.get("name");
 
 export default class Game extends Component {
   state = {
-    users: [],
+    users: ["poop scoop"],
     guild_id: 0,
     currentRound: 1,
     totalRounds: 3,
