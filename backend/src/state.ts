@@ -135,6 +135,7 @@ export class Guild {
   generateNewRoundEvent(word: string): NewRoundEvent {
     return {
       event: "new_round",
+      total_rounds: this.rounds,
       word: word,
     };
   }
