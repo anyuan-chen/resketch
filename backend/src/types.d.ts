@@ -14,5 +14,6 @@ interface Event {
 
 interface UserEvent extends Event {
   event: "user_update";
+  guild_id: string;
   users: { name: string; id: string }[];
 }

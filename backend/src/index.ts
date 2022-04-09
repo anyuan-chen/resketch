@@ -30,7 +30,7 @@ server.on("connection", (socket, req) => {
       socket.send(JSON.stringify({ event: "error", error: "EmptyGuildField" }));
       return socket.close();
     }
-    if (!guilds[guildHash]) {
+    if (!guilds[guildHash]?.alive) {
       socket.send(JSON.stringify({ event: "error", error: "GuildNotFound" }));
       return socket.close();
     }
@@ -45,9 +45,10 @@ server.on("connection", (socket, req) => {
     let newGuildId;
     do {
       newGuildId = randomGuildId();
-    } while (guilds[newGuildId]);
+    } while (guilds[newGuildId]?.alive);
 
-    guilds[newGuildId] = new Guild(rounds);
+    console.log(`Created guild ${newGuildId}`);
+    guilds[newGuildId] = new Guild(newGuildId, rounds);
     guilds[newGuildId].addUser(newUser);
   }
 });
