@@ -188,7 +188,6 @@ class GameManager {
 
   setImage(user: User, image: string) {
     this.images[user.id] = image;
-    this.sinceLastSync++;
   }
 
   startNextRound(): boolean {
