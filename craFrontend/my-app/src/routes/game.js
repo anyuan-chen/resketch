@@ -18,7 +18,7 @@ const name = url.searchParams.get("name");
 
 export default class Game extends Component {
   state = {
-    users: ["poop scoop"],
+    users: ["default user"],
     guild_id: 0,
     currentRound: 1,
     totalRounds: 3,
